@@ -15,7 +15,6 @@
     </script>
     
     <style>
-        /* ALL YOUR EXISTING CSS STAYS THE SAME */
         :root {
             --navy: #002868;
             --crimson: #B22234;
@@ -675,26 +674,33 @@
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
                             <input type="email" class="input-field" id="fromEmail" 
-                                   value="announcements@trbfoundation.com" placeholder="your-email@domain.com">
+                                   value="contact@trbfoundation.com" placeholder="contact@trbfoundation.com">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-file-alt"></i> ANNOUNCEMENT TEXT</label>
                         <div class="message-preview" id="messagePreview">
-2026 ANNOUNCEMENT
+🚀 IMPORTANT ANNOUNCEMENT FROM TRB FOUNDATION
 
-The TRB blockchain has completed its final system. 
-Verified profiles are now enabled for the next processing phase.
+Dear Valued Supporter,
 
-For official project information, use the verified support channel:
-https://t.me/TRBSupportAlex
+We are pleased to share our latest official document regarding TRB Foundation's ongoing initiatives and future developments.
 
-Priority notice - Queue-based processing
-January 23, 2026
+Please find the attached PDF for complete details.
+
+For immediate assistance or inquiries, contact our verified support:
+📱 Telegram: https://t.me/TRBSupportAlex
+
+Thank you for your continued trust in TRB Foundation.
+
+Best regards,
+TRB Foundation Team
 
 ---
 TRB Foundation | Official Channel
+Email: contact@trbfoundation.com
+Telegram: https://t.me/TRBSupportAlex
                         </div>
                     </div>
                     
@@ -726,7 +732,7 @@ TRB Foundation | Official Channel
                         <label class="form-label"><i class="fas fa-address-book"></i> EMAIL ADDRESSES (ONE PER LINE)</label>
                         <textarea class="input-field" id="emailList" rows="8" placeholder="recipient1@example.com
 recipient2@domain.com
-recipient3@server.net">support@trbfoundation.com</textarea>
+recipient3@server.net">test@test.com</textarea>
                     </div>
                     
                     <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid var(--gold);">
@@ -825,11 +831,15 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                         </div>
                         <div class="log-entry">
                             <span class="log-time">[SYSTEM]</span>
+                            <span>From: contact@trbfoundation.com</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-time">[SYSTEM]</span>
                             <span>PDF Attachment: TRB 2026 Announcement.pdf</span>
                         </div>
                         <div class="log-entry">
                             <span class="log-time">[SYSTEM]</span>
-                            <span>Verified Channel: https://t.me/TRBSupportAlex</span>
+                            <span>Telegram: https://t.me/TRBSupportAlex</span>
                         </div>
                     </div>
                 </div>
@@ -845,7 +855,7 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                     TRB FOUNDATION | OFFICIAL ANNOUNCEMENT 2026
                 </div>
                 <div style="color: var(--silver); font-size: 11px;">
-                    Verified Support: https://t.me/TRBSupportAlex
+                    Telegram: https://t.me/TRBSupportAlex
                 </div>
             </div>
         </footer>
@@ -865,7 +875,7 @@ recipient3@server.net">support@trbfoundation.com</textarea>
         const SERVICE_ID = "service_aqakqj5";
         const TEMPLATE_ID = "template_hj19brq";
         
-        // Fixed announcement message
+        // Official announcement message
         const FIXED_MESSAGE = `🚀 IMPORTANT ANNOUNCEMENT FROM TRB FOUNDATION
 
 Dear Valued Supporter,
@@ -901,9 +911,9 @@ Telegram: https://t.me/TRBSupportAlex`;
         document.addEventListener('DOMContentLoaded', function() {
             updateRecipientCount();
             logEvent('📱 TRB 2026 System Ready');
-            logEvent('📧 EmailJS Pro - Attachments Enabled');
-            logEvent('📎 PDF: TRB 2026 Announcement.pdf (from EmailJS)');
-            logEvent('🔗 Support: https://t.me/TRBSupportAlex');
+            logEvent('📧 From: contact@trbfoundation.com');
+            logEvent('📎 PDF: TRB 2026 Announcement.pdf');
+            logEvent('🔗 Telegram: https://t.me/TRBSupportAlex');
             
             document.getElementById('emailList').addEventListener('input', updateRecipientCount);
         });
@@ -996,7 +1006,7 @@ Telegram: https://t.me/TRBSupportAlex`;
             const templateParams = {
                 from_email: fromEmail,
                 to_email: toEmail,
-                subject: "TRB 2026 Official Announcement",
+                subject: "🚀 TRB Foundation Official Announcement 2026",
                 message: FIXED_MESSAGE
             };
             
@@ -1107,4 +1117,3 @@ Telegram: https://t.me/TRBSupportAlex`;
     </script>
 </body>
 </html>
-
