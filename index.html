@@ -11,8 +11,13 @@
     <meta name="apple-mobile-web-app-title" content="TRB Email">
     <meta name="format-detection" content="telephone=no">
     
-    <!-- APP ICON (create a simple one) -->
-    <link rel="apple-touch-icon" href="icon.png">
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("MZwmf_NDIEbzNgL3t"); // Your Public Key
+        })();
+    </script>
     
     <!-- STYLES -->
     <link rel="stylesheet" href="style.css">
@@ -46,11 +51,6 @@
                 </div>
                 
                 <div class="input-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="password" placeholder="SMTP password">
-                </div>
-                
-                <div class="input-group">
                     <label>SUBJECT</label>
                     <input type="text" id="subject" value="Hello from TRB">
                 </div>
@@ -76,27 +76,6 @@
                 <div class="recipient-stats">
                     <span>Total: <span id="totalCount">1</span></span>
                     <span>Max: 45</span>
-                </div>
-            </div>
-            
-            <!-- ATTACHMENT CARD -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-paperclip"></i>
-                    <h2>ATTACHMENT</h2>
-                </div>
-                
-                <div class="attach-box" onclick="document.getElementById('pdfFile').click()">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>TAP TO ATTACH PDF</p>
-                    <small>Max 10MB</small>
-                </div>
-                <input type="file" id="pdfFile" accept=".pdf" style="display: none;">
-                
-                <div id="pdfInfo" style="display: none;" class="attach-info">
-                    <i class="fas fa-file-pdf"></i>
-                    <span id="pdfName"></span>
-                    <button onclick="removePDF()" class="remove-btn">✕</button>
                 </div>
             </div>
             
@@ -185,6 +164,249 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // ===== APP STATE =====
+        let sendingActive = false;
+        let currentIndex = 0;
+        let emailList = [];
+        let sentCount = 0;
+        let failedCount = 0;
+        let timerInterval = null;
+        let countdownInterval = null;
+        let sendTimeout = null;
+
+        // EmailJS Config
+        const SERVICE_ID = "service_aqakqj5";
+        const TEMPLATE_ID = "template_hj19brq";
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRecipientCount();
+            logEvent('📱 App ready');
+            logEvent('📧 EmailJS connected');
+            
+            document.getElementById('recipients').addEventListener('input', updateRecipientCount);
+        });
+
+        // ===== RECIPIENT COUNT =====
+        function updateRecipientCount() {
+            const text = document.getElementById('recipients').value;
+            const emails = text.split('\n')
+                .map(e => e.trim())
+                .filter(e => e.includes('@') && e.length > 0);
+            
+            document.getElementById('totalCount').textContent = emails.length;
+        }
+
+        // ===== SENDING FUNCTIONS =====
+        function startSending() {
+            if (sendingActive) return;
+            
+            // Validate
+            const fromEmail = document.getElementById('fromEmail').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const recipientsText = document.getElementById('recipients').value;
+            
+            if (!fromEmail || !fromEmail.includes('@')) {
+                showAlert('Enter valid FROM email');
+                return;
+            }
+            
+            if (!subject) {
+                showAlert('Enter subject');
+                return;
+            }
+            
+            if (!message) {
+                showAlert('Enter message');
+                return;
+            }
+            
+            emailList = recipientsText.split('\n')
+                .map(e => e.trim())
+                .filter(e => e.includes('@'));
+            
+            if (emailList.length === 0) {
+                showAlert('Enter at least one recipient');
+                return;
+            }
+            
+            if (emailList.length > 45) {
+                showAlert('Maximum 45 recipients');
+                return;
+            }
+            
+            // Start
+            sendingActive = true;
+            currentIndex = 0;
+            sentCount = 0;
+            failedCount = 0;
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            
+            logEvent(`▶️ Started sending to ${emailList.length} recipients`);
+            updateStats();
+            startTimers();
+            
+            // Send first email
+            sendNextEmail();
+        }
+
+        function stopSending() {
+            sendingActive = false;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            clearInterval(timerInterval);
+            clearInterval(countdownInterval);
+            clearTimeout(sendTimeout);
+            
+            document.getElementById('nextTimer').textContent = '30s';
+            document.getElementById('elapsedTimer').textContent = '00:00';
+            
+            logEvent('⏹️ Sending stopped');
+        }
+
+        function sendNextEmail() {
+            if (!sendingActive) return;
+            
+            if (currentIndex >= emailList.length) {
+                // Done
+                stopSending();
+                logEvent('✅ All emails sent!');
+                showAlert('Sending complete!');
+                return;
+            }
+            
+            const toEmail = emailList[currentIndex];
+            const fromEmail = document.getElementById('fromEmail').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            logEvent(`📧 Sending to ${toEmail}...`);
+            
+            // Prepare template params
+            const templateParams = {
+                from_email: fromEmail,
+                to_email: toEmail,
+                subject: subject,
+                message: message
+            };
+            
+            // Send via EmailJS
+            emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+                .then(function(response) {
+                    sentCount++;
+                    logEvent(`✅ Sent to ${toEmail}`);
+                    updateStats();
+                })
+                .catch(function(error) {
+                    failedCount++;
+                    logEvent(`❌ Failed: ${toEmail} - ${error.text || 'Error'}`);
+                    updateStats();
+                })
+                .finally(function() {
+                    currentIndex++;
+                    
+                    // Schedule next email if not done
+                    if (currentIndex < emailList.length && sendingActive) {
+                        // Update timer display
+                        let seconds = 30;
+                        const timerElement = document.getElementById('nextTimer');
+                        
+                        clearInterval(countdownInterval);
+                        countdownInterval = setInterval(() => {
+                            seconds--;
+                            if (seconds < 0) {
+                                clearInterval(countdownInterval);
+                                return;
+                            }
+                            timerElement.textContent = seconds + 's';
+                        }, 1000);
+                        
+                        // Schedule next
+                        sendTimeout = setTimeout(() => {
+                            sendNextEmail();
+                        }, 30000);
+                    } else if (currentIndex >= emailList.length) {
+                        // All done
+                        setTimeout(() => {
+                            stopSending();
+                            logEvent('✅ Complete!');
+                        }, 1000);
+                    }
+                });
+        }
+
+        // ===== TIMERS =====
+        function startTimers() {
+            // Elapsed timer
+            let elapsed = 0;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                elapsed++;
+                const mins = Math.floor(elapsed / 60);
+                const secs = elapsed % 60;
+                document.getElementById('elapsedTimer').textContent = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+            
+            // Start countdown
+            let seconds = 30;
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                seconds--;
+                if (seconds < 0) seconds = 30;
+                document.getElementById('nextTimer').textContent = seconds + 's';
+            }, 1000);
+        }
+
+        // ===== UPDATE STATS =====
+        function updateStats() {
+            const total = emailList.length;
+            const progress = total > 0 ? ((sentCount + failedCount) / total) * 100 : 0;
+            
+            document.getElementById('statSent').textContent = sentCount;
+            document.getElementById('statFailed').textContent = failedCount;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+        }
+
+        // ===== LOGGING =====
+        function logEvent(message) {
+            const logPanel = document.getElementById('logPanel');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${time}] ${message}`;
+            
+            logPanel.appendChild(entry);
+            logPanel.scrollTop = logPanel.scrollHeight;
+            
+            // Keep last 50
+            while (logPanel.children.length > 50) {
+                logPanel.removeChild(logPanel.firstChild);
+            }
+        }
+
+        // ===== ALERTS =====
+        function showAlert(message) {
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('alertModal').style.display = 'flex';
+            logEvent(`⚠️ ${message}`);
+        }
+
+        function closeModal() {
+            document.getElementById('alertModal').style.display = 'none';
+        }
+
+        // ===== EXPOSE FUNCTIONS =====
+        window.startSending = startSending;
+        window.stopSending = stopSending;
+        window.closeModal = closeModal;
+    </script>
 </body>
 </html>
