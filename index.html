@@ -2,170 +2,903 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TRB Email System</title>
-    
-    <!-- MAKE IT AN APP ON IPHONE -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="TRB Email">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRB Foundation | Email System 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("MZwmf_NDIEbzNgL3t"); // Your Public Key
+            emailjs.init("MZwmf_NDIEbzNgL3t");
         })();
     </script>
     
-    <!-- STYLES -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #002868;
+            --crimson: #B22234;
+            --gold: #C99700;
+            --silver: #E8E8E8;
+            --patriot-blue: #003366;
+            --eagle-gold: #FFD700;
+            --send-green: #2ecc71;
+            --cooldown-blue: #3498db;
+            --reset-orange: #e67e22;
+            --dark-bg: #0a1929;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 40, 104, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(178, 34, 52, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(201, 151, 0, 0.1) 0%, transparent 50%);
+        }
+        
+        .pulse-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, transparent 49%, rgba(255, 215, 0, 0.03) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(255, 215, 0, 0.03) 50%, transparent 51%);
+            background-size: 60px 60px;
+            z-index: -1;
+            animation: gridPulse 8s infinite;
+        }
+        
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        
+        .glow-orb {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 40, 104, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+            animation: orbMove 30s infinite alternate ease-in-out;
+        }
+        
+        @keyframes orbMove {
+            0% { transform: translate(10vw, 10vh); }
+            100% { transform: translate(80vw, 80vh); }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-header {
+            background: linear-gradient(135deg, 
+                rgba(0, 40, 104, 0.9) 0%, 
+                rgba(0, 51, 102, 0.9) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 25px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--send-green), 
+                var(--reset-orange), 
+                var(--cooldown-blue));
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo-icon {
+            font-size: 42px;
+            color: var(--gold);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            animation: gentlePulse 3s infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .logo-text h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .logo-text p {
+            color: var(--silver);
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .stat-item {
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--eagle-gold);
+            margin-bottom: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: var(--silver);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: linear-gradient(135deg, 
+                rgba(0, 40, 104, 0.85), 
+                rgba(0, 51, 102, 0.85));
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            margin-bottom: 25px;
+        }
+        
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
+        }
+        
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .panel-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--crimson), var(--navy));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--eagle-gold);
+            border: 2px solid var(--gold);
+        }
+        
+        .panel-title h2 {
+            font-size: 19px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 3px;
+        }
+        
+        .panel-title p {
+            color: var(--silver);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--silver);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            z-index: 1;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--eagle-gold);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        textarea.input-field {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        /* MESSAGE PREVIEW */
+        .message-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--silver);
+            border-left: 4px solid var(--crimson);
+        }
+        
+        .pdf-attachment-box {
+            border: 3px dashed var(--gold);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            margin: 15px 0;
+        }
+        
+        .pdf-attachment-box:hover {
+            background: rgba(178, 34, 52, 0.1);
+            border-color: var(--crimson);
+            transform: translateY(-2px);
+        }
+        
+        .pdf-attachment-box i {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        
+        #pdfInfo {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+            margin-top: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timing-display {
+            background: linear-gradient(135deg, 
+                rgba(39, 174, 96, 0.1), 
+                rgba(52, 152, 219, 0.1), 
+                rgba(230, 126, 34, 0.1));
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .timing-values {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .timing-item {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .timing-number {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--eagle-gold);
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timing-label {
+            font-size: 10px;
+            color: var(--silver);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .progress-section {
+            margin: 20px 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-label {
+            color: var(--silver);
+            font-size: 12px;
+        }
+        
+        .progress-percent {
+            color: var(--gold);
+            font-family: 'Courier New';
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--send-green), var(--gold));
+            width: 0%;
+            transition: width 0.5s ease-out;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid, .timing-values {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+        }
+        
+        .stat-number {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--eagle-gold);
+        }
+        
+        .stat-text {
+            font-size: 10px;
+            color: var(--silver);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .control-btn {
+            padding: 18px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, var(--send-green), #27ae60);
+            color: white;
+            border: 2px solid var(--send-green);
+        }
+        
+        .btn-start:hover:not(:disabled) {
+            background: linear-gradient(135deg, #27ae60, var(--send-green));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .btn-stop {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: 2px solid #c0392b;
+        }
+        
+        .btn-stop:hover:not(:disabled) {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .log-panel {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(58, 58, 58, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            height: 280px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }
+        
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .log-time {
+            color: var(--gold);
+            min-width: 75px;
+            font-size: 10px;
+        }
+        
+        .log-send { color: var(--send-green); }
+        .log-error { color: var(--crimson); }
+        .log-info { color: var(--silver); }
+        
+        .alert-area {
+            margin: 20px 0;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid;
+            animation: slideIn 0.3s;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .alert-send {
+            border-left-color: var(--send-green);
+            color: var(--send-green);
+        }
+        
+        .alert-error {
+            border-left-color: var(--crimson);
+            color: var(--crimson);
+        }
+        
+        .main-footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--silver);
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            margin-top: 30px;
+        }
+        
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--navy), var(--crimson));
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--gold);
+            font-size: 24px;
+            color: var(--eagle-gold);
+            animation: gentlePulse 4s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .header-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .control-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- HEADER -->
-        <div class="app-header">
-            <div class="header-left">
-                <i class="fas fa-paper-plane"></i>
-                <h1>TRB EMAIL</h1>
+    <div class="animated-bg"></div>
+    <div class="pulse-grid"></div>
+    <div class="glow-orb"></div>
+    
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>TRB FOUNDATION 2026</h1>
+                        <p>ANNOUNCEMENT SYSTEM</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="headerSent">0</div>
+                        <div class="stat-label">SENT</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="headerFailed">0</div>
+                        <div class="stat-label">FAILED</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">30s</div>
+                        <div class="stat-label">INTERVAL</div>
+                    </div>
+                </div>
             </div>
-            <div class="header-right">
-                <span class="badge">v1.0</span>
-            </div>
-        </div>
+        </header>
+        
+        <div class="main-grid">
+            <!-- LEFT COLUMN -->
+            <div>
+                <!-- EMAIL CONFIGURATION -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="panel-title">
+                            <h2>ANNOUNCEMENT CONFIGURATION</h2>
+                            <p>TRB 2026 OFFICIAL MESSAGE</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-at"></i> FROM EMAIL ADDRESS</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" class="input-field" id="fromEmail" 
+                                   value="contact@trbfoundation.com" placeholder="your-email@domain.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-file-alt"></i> MESSAGE PREVIEW</label>
+                        <div class="message-preview" id="messagePreview">
+Dear supporter,
 
-        <!-- MAIN CONTENT -->
-        <div class="app-content">
-            <!-- COMPOSE CARD -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-pen"></i>
-                    <h2>COMPOSE EMAIL</h2>
-                </div>
-                
-                <div class="input-group">
-                    <label>FROM EMAIL</label>
-                    <input type="email" id="fromEmail" value="contact@trb.com" placeholder="your@email.com">
-                </div>
-                
-                <div class="input-group">
-                    <label>SUBJECT</label>
-                    <input type="text" id="subject" value="Hello from TRB">
-                </div>
-                
-                <div class="input-group">
-                    <label>MESSAGE</label>
-                    <textarea id="message" rows="4">This is a test message.</textarea>
-                </div>
-            </div>
-            
-            <!-- RECIPIENTS CARD -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-users"></i>
-                    <h2>RECIPIENTS</h2>
-                </div>
-                
-                <div class="input-group">
-                    <label>EMAIL ADDRESSES (one per line)</label>
-                    <textarea id="recipients" rows="5" placeholder="friend1@email.com&#10;friend2@email.com">test@test.com</textarea>
-                </div>
-                
-                <div class="recipient-stats">
-                    <span>Total: <span id="totalCount">1</span></span>
-                    <span>Max: 45</span>
-                </div>
-            </div>
-            
-            <!-- CONTROL CARD -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-play"></i>
-                    <h2>CONTROL</h2>
-                </div>
-                
-                <!-- PROGRESS -->
-                <div class="progress-section">
-                    <div class="progress-header">
-                        <span>Progress</span>
-                        <span id="progressPercent">0%</span>
+Please find attached our latest document from TRB Foundation.
+
+This contains important information about our recent activities.
+
+Best regards,
+TRB Foundation Team
+
+---
+TRB Foundation | Building Better Communities
+Email: contact@trbfoundation.com
+                        </div>
+                        <textarea class="input-field" id="message" rows="6" style="display: none;">Dear supporter,
+
+Please find attached our latest document from TRB Foundation.
+
+This contains important information about our recent activities.
+
+Best regards,
+TRB Foundation Team
+
+---
+TRB Foundation | Building Better Communities
+Email: contact@trbfoundation.com</textarea>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                </div>
-                
-                <!-- STATS GRID -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-value" id="statSent">0</span>
-                        <span class="stat-label">SENT</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-value" id="statFailed">0</span>
-                        <span class="stat-label">FAILED</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-value" id="statTotal">45</span>
-                        <span class="stat-label">MAX</span>
-                    </div>
-                </div>
-                
-                <!-- BUTTONS -->
-                <div class="button-group">
-                    <button class="btn btn-start" id="startBtn" onclick="startSending()">
-                        <i class="fas fa-play"></i> START
-                    </button>
-                    <button class="btn btn-stop" id="stopBtn" onclick="stopSending()" disabled>
-                        <i class="fas fa-stop"></i> STOP
-                    </button>
-                </div>
-                
-                <!-- TIMER -->
-                <div class="timer-display">
-                    <div class="timer-item">
-                        <span class="timer-label">NEXT EMAIL</span>
-                        <span class="timer-value" id="nextTimer">30s</span>
-                    </div>
-                    <div class="timer-item">
-                        <span class="timer-label">ELAPSED</span>
-                        <span class="timer-value" id="elapsedTimer">00:00</span>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-file-pdf"></i> TRB 2026 ANNOUNCEMENT.PDF</label>
+                        <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; border: 1px solid var(--gold); text-align: center;">
+                            <i class="fas fa-file-pdf" style="color: var(--crimson); font-size: 48px; margin-bottom: 10px;"></i>
+                            <p style="color: white; margin-bottom: 5px;">TRB 2026 Announcement.pdf</p>
+                            <p style="color: var(--silver); font-size: 11px;">Document ready for attachment</p>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- LOG CARD -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-terminal"></i>
-                    <h2>EVENT LOG</h2>
+            <!-- RIGHT COLUMN -->
+            <div>
+                <!-- RECIPIENT LIST -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="panel-title">
+                            <h2>RECIPIENT LIST</h2>
+                            <p>ENTER EMAIL ADDRESSES</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-address-book"></i> EMAIL ADDRESSES (ONE PER LINE)</label>
+                        <textarea class="input-field" id="emailList" rows="8" placeholder="recipient1@example.com
+recipient2@domain.com
+recipient3@server.net">support@trbfoundation.com</textarea>
+                    </div>
+                    
+                    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid var(--gold);">
+                        <div style="color: var(--silver); font-size: 11px; margin-bottom: 10px;">
+                            <i class="fas fa-chart-pie"></i> LIST ANALYSIS
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                            <div>
+                                <div style="color: white; font-size: 18px; font-weight: bold;" id="totalEmails">1</div>
+                                <div style="color: var(--silver); font-size: 9px;">TOTAL EMAILS</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--send-green); font-size: 18px; font-weight: bold;" id="estimatedTime">0.5</div>
+                                <div style="color: var(--silver); font-size: 9px;">ESTIMATED MINUTES</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="log-panel" id="logPanel">
-                    <div class="log-entry">📱 App ready</div>
+                <!-- CONTROL PANEL -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="panel-title">
+                            <h2>CONTROL PANEL</h2>
+                            <p>SEND ANNOUNCEMENTS</p>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span class="progress-label">SENDING PROGRESS</span>
+                            <span class="progress-percent" id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="statSent">0</div>
+                            <div class="stat-text">SENT</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="statFailed">0</div>
+                            <div class="stat-text">FAILED</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="statRemaining">45</div>
+                            <div class="stat-text">REMAINING</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-btn btn-start" id="startBtn" onclick="startSending()">
+                            <i class="fas fa-play"></i> START SENDING
+                        </button>
+                        <button class="control-btn btn-stop" id="stopBtn" onclick="stopSending()" disabled>
+                            <i class="fas fa-stop"></i> STOP SENDING
+                        </button>
+                    </div>
+                    
+                    <div class="timing-display">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <div style="color: var(--silver); font-size: 10px;">NEXT EMAIL IN</div>
+                                <div style="color: var(--eagle-gold); font-size: 28px; font-family: 'Courier New';" id="nextTimer">30s</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--silver); font-size: 10px;">ELAPSED TIME</div>
+                                <div style="color: white; font-size: 28px; font-family: 'Courier New';" id="elapsedTimer">00:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-area" id="alertArea"></div>
+                </div>
+                
+                <!-- EVENT LOG -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-icon">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <div class="panel-title">
+                            <h2>EVENT LOG</h2>
+                            <p>SYSTEM ACTIVITY</p>
+                        </div>
+                    </div>
+                    
+                    <div class="log-panel" id="logPanel">
+                        <div class="log-entry">
+                            <span class="log-time">[SYSTEM]</span>
+                            <span>TRB Foundation 2026 System Initialized</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-time">[SYSTEM]</span>
+                            <span>Announcement: TRB 2026 Official</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- FOOTER -->
-        <div class="app-footer">
-            <p>TRB EMAIL SYSTEM • 30s INTERVAL • MAX 45</p>
-        </div>
+        <footer class="main-footer">
+            <div class="footer-logo">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <div>
+                <div style="color: var(--gold); margin-bottom: 10px; font-size: 14px;">
+                    TRB FOUNDATION | OFFICIAL ANNOUNCEMENT 2026
+                </div>
+                <div style="color: var(--silver); font-size: 11px;">
+                    Verified Support: https://t.me/TRBSupportAlex
+                </div>
+            </div>
+        </footer>
     </div>
     
     <!-- ALERT MODAL -->
-    <div class="modal" id="alertModal">
-        <div class="modal-content">
-            <i class="fas fa-info-circle" id="modalIcon"></i>
-            <p id="modalMessage">Message</p>
-            <button onclick="closeModal()">OK</button>
+    <div class="modal" id="alertModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; z-index: 1000;">
+        <div style="background: var(--dark-bg); border: 2px solid var(--gold); border-radius: 12px; padding: 30px; max-width: 300px; text-align: center;">
+            <i class="fas fa-info-circle" style="color: var(--gold); font-size: 48px; margin-bottom: 15px;"></i>
+            <p id="modalMessage" style="color: white; margin-bottom: 20px;">Message</p>
+            <button onclick="closeModal()" style="background: var(--gold); color: var(--dark-bg); border: none; padding: 10px 30px; border-radius: 6px; font-weight: bold; cursor: pointer;">OK</button>
         </div>
     </div>
 
     <script>
-        // ===== APP STATE =====
+        // EmailJS Config
+        const SERVICE_ID = "service_aqakqj5";
+        const TEMPLATE_ID = "template_hj19brq";
+        
+        // State
         let sendingActive = false;
         let currentIndex = 0;
         let emailList = [];
@@ -174,52 +907,52 @@
         let timerInterval = null;
         let countdownInterval = null;
         let sendTimeout = null;
+        
+        // Fixed message
+        const FIXED_MESSAGE = `Dear supporter,
 
-        // EmailJS Config
-        const SERVICE_ID = "service_aqakqj5";
-        const TEMPLATE_ID = "template_hj19brq";
+Please find attached our latest document from TRB Foundation.
 
-        // ===== INIT =====
+This contains important information about our recent activities.
+
+Best regards,
+TRB Foundation Team
+
+---
+TRB Foundation | Building Better Communities
+Email: contact@trbfoundation.com`;
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('message').value = FIXED_MESSAGE;
             updateRecipientCount();
-            logEvent('📱 App ready');
-            logEvent('📧 EmailJS connected');
+            logEvent('📱 System Ready - TRB 2026 Announcement');
+            logEvent('📧 EmailJS Connected');
+            logEvent('📎 PDF: TRB 2026 Announcement.pdf');
             
-            document.getElementById('recipients').addEventListener('input', updateRecipientCount);
+            document.getElementById('emailList').addEventListener('input', updateRecipientCount);
         });
-
-        // ===== RECIPIENT COUNT =====
+        
         function updateRecipientCount() {
-            const text = document.getElementById('recipients').value;
+            const text = document.getElementById('emailList').value;
             const emails = text.split('\n')
                 .map(e => e.trim())
                 .filter(e => e.includes('@') && e.length > 0);
             
-            document.getElementById('totalCount').textContent = emails.length;
+            document.getElementById('totalEmails').textContent = emails.length;
+            
+            const minutes = (emails.length * 0.5).toFixed(1);
+            document.getElementById('estimatedTime').textContent = minutes;
         }
-
-        // ===== SENDING FUNCTIONS =====
+        
         function startSending() {
             if (sendingActive) return;
             
-            // Validate
             const fromEmail = document.getElementById('fromEmail').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            const recipientsText = document.getElementById('recipients').value;
+            const recipientsText = document.getElementById('emailList').value;
             
             if (!fromEmail || !fromEmail.includes('@')) {
                 showAlert('Enter valid FROM email');
-                return;
-            }
-            
-            if (!subject) {
-                showAlert('Enter subject');
-                return;
-            }
-            
-            if (!message) {
-                showAlert('Enter message');
                 return;
             }
             
@@ -232,12 +965,6 @@
                 return;
             }
             
-            if (emailList.length > 45) {
-                showAlert('Maximum 45 recipients');
-                return;
-            }
-            
-            // Start
             sendingActive = true;
             currentIndex = 0;
             sentCount = 0;
@@ -245,15 +972,16 @@
             
             document.getElementById('startBtn').disabled = true;
             document.getElementById('stopBtn').disabled = false;
+            document.getElementById('headerSent').textContent = '0';
+            document.getElementById('headerFailed').textContent = '0';
             
             logEvent(`▶️ Started sending to ${emailList.length} recipients`);
             updateStats();
             startTimers();
             
-            // Send first email
             sendNextEmail();
         }
-
+        
         function stopSending() {
             sendingActive = false;
             document.getElementById('startBtn').disabled = false;
@@ -268,51 +996,46 @@
             
             logEvent('⏹️ Sending stopped');
         }
-
+        
         function sendNextEmail() {
             if (!sendingActive) return;
             
             if (currentIndex >= emailList.length) {
-                // Done
                 stopSending();
-                logEvent('✅ All emails sent!');
+                logEvent('✅ All announcements sent!');
                 showAlert('Sending complete!');
                 return;
             }
             
             const toEmail = emailList[currentIndex];
             const fromEmail = document.getElementById('fromEmail').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
             
             logEvent(`📧 Sending to ${toEmail}...`);
             
-            // Prepare template params
             const templateParams = {
                 from_email: fromEmail,
                 to_email: toEmail,
-                subject: subject,
-                message: message
+                subject: "TRB 2026 Announcement",
+                message: FIXED_MESSAGE
             };
             
-            // Send via EmailJS
             emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
                 .then(function(response) {
                     sentCount++;
+                    document.getElementById('headerSent').textContent = sentCount;
                     logEvent(`✅ Sent to ${toEmail}`);
                     updateStats();
                 })
                 .catch(function(error) {
                     failedCount++;
+                    document.getElementById('headerFailed').textContent = failedCount;
                     logEvent(`❌ Failed: ${toEmail} - ${error.text || 'Error'}`);
                     updateStats();
                 })
                 .finally(function() {
                     currentIndex++;
                     
-                    // Schedule next email if not done
                     if (currentIndex < emailList.length && sendingActive) {
-                        // Update timer display
                         let seconds = 30;
                         const timerElement = document.getElementById('nextTimer');
                         
@@ -326,12 +1049,10 @@
                             timerElement.textContent = seconds + 's';
                         }, 1000);
                         
-                        // Schedule next
                         sendTimeout = setTimeout(() => {
                             sendNextEmail();
                         }, 30000);
                     } else if (currentIndex >= emailList.length) {
-                        // All done
                         setTimeout(() => {
                             stopSending();
                             logEvent('✅ Complete!');
@@ -339,10 +1060,8 @@
                     }
                 });
         }
-
-        // ===== TIMERS =====
+        
         function startTimers() {
-            // Elapsed timer
             let elapsed = 0;
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
@@ -353,7 +1072,6 @@
                     `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             }, 1000);
             
-            // Start countdown
             let seconds = 30;
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
@@ -362,48 +1080,44 @@
                 document.getElementById('nextTimer').textContent = seconds + 's';
             }, 1000);
         }
-
-        // ===== UPDATE STATS =====
+        
         function updateStats() {
             const total = emailList.length;
             const progress = total > 0 ? ((sentCount + failedCount) / total) * 100 : 0;
             
             document.getElementById('statSent').textContent = sentCount;
             document.getElementById('statFailed').textContent = failedCount;
+            document.getElementById('statRemaining').textContent = total - (sentCount + failedCount);
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
         }
-
-        // ===== LOGGING =====
+        
         function logEvent(message) {
             const logPanel = document.getElementById('logPanel');
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             
             const entry = document.createElement('div');
             entry.className = 'log-entry';
-            entry.textContent = `[${time}] ${message}`;
+            entry.innerHTML = `<span class="log-time">[${time}]</span> <span>${message}</span>`;
             
             logPanel.appendChild(entry);
             logPanel.scrollTop = logPanel.scrollHeight;
             
-            // Keep last 50
             while (logPanel.children.length > 50) {
                 logPanel.removeChild(logPanel.firstChild);
             }
         }
-
-        // ===== ALERTS =====
+        
         function showAlert(message) {
             document.getElementById('modalMessage').textContent = message;
             document.getElementById('alertModal').style.display = 'flex';
-            logEvent(`⚠️ ${message}`);
         }
-
+        
         function closeModal() {
             document.getElementById('alertModal').style.display = 'none';
         }
-
-        // ===== EXPOSE FUNCTIONS =====
+        
+        // Expose functions
         window.startSending = startSending;
         window.stopSending = stopSending;
         window.closeModal = closeModal;
