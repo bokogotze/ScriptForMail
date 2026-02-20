@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRB Foundation | Email System 2026</title>
+    <title>TRB Foundation | Official Announcement 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
             emailjs.init("MZwmf_NDIEbzNgL3t");
@@ -15,6 +15,7 @@
     </script>
     
     <style>
+        /* ALL YOUR EXISTING CSS STAYS THE SAME */
         :root {
             --navy: #002868;
             --crimson: #B22234;
@@ -313,7 +314,6 @@
             line-height: 1.5;
         }
         
-        /* MESSAGE PREVIEW */
         .message-preview {
             background: rgba(0, 0, 0, 0.4);
             border: 2px solid var(--gold);
@@ -333,36 +333,14 @@
             padding: 40px 20px;
             text-align: center;
             background: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.3s;
             position: relative;
             margin: 15px 0;
-        }
-        
-        .pdf-attachment-box:hover {
-            background: rgba(178, 34, 52, 0.1);
-            border-color: var(--crimson);
-            transform: translateY(-2px);
         }
         
         .pdf-attachment-box i {
             font-size: 48px;
             color: var(--gold);
             margin-bottom: 15px;
-        }
-        
-        #pdfInfo {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--gold);
-            margin-top: 15px;
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .timing-display {
@@ -658,7 +636,7 @@
                     </div>
                     <div class="logo-text">
                         <h1>TRB FOUNDATION 2026</h1>
-                        <p>ANNOUNCEMENT SYSTEM</p>
+                        <p>OFFICIAL ANNOUNCEMENT SYSTEM</p>
                     </div>
                 </div>
                 <div class="header-stats">
@@ -681,15 +659,14 @@
         <div class="main-grid">
             <!-- LEFT COLUMN -->
             <div>
-                <!-- EMAIL CONFIGURATION -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-icon">
                             <i class="fas fa-cogs"></i>
                         </div>
                         <div class="panel-title">
-                            <h2>ANNOUNCEMENT CONFIGURATION</h2>
-                            <p>TRB 2026 OFFICIAL MESSAGE</p>
+                            <h2>OFFICIAL ANNOUNCEMENT</h2>
+                            <p>TRB 2026 - VERIFIED MESSAGE</p>
                         </div>
                     </div>
                     
@@ -698,46 +675,35 @@
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
                             <input type="email" class="input-field" id="fromEmail" 
-                                   value="contact@trbfoundation.com" placeholder="your-email@domain.com">
+                                   value="announcements@trbfoundation.com" placeholder="your-email@domain.com">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label"><i class="fas fa-file-alt"></i> MESSAGE PREVIEW</label>
+                        <label class="form-label"><i class="fas fa-file-alt"></i> ANNOUNCEMENT TEXT</label>
                         <div class="message-preview" id="messagePreview">
-Dear supporter,
+2026 ANNOUNCEMENT
 
-Please find attached our latest document from TRB Foundation.
+The TRB blockchain has completed its final system. 
+Verified profiles are now enabled for the next processing phase.
 
-This contains important information about our recent activities.
+For official project information, use the verified support channel:
+https://t.me/TRBSupportAlex
 
-Best regards,
-TRB Foundation Team
+Priority notice - Queue-based processing
+January 23, 2026
 
 ---
-TRB Foundation | Building Better Communities
-Email: contact@trbfoundation.com
+TRB Foundation | Official Channel
                         </div>
-                        <textarea class="input-field" id="message" rows="6" style="display: none;">Dear supporter,
-
-Please find attached our latest document from TRB Foundation.
-
-This contains important information about our recent activities.
-
-Best regards,
-TRB Foundation Team
-
----
-TRB Foundation | Building Better Communities
-Email: contact@trbfoundation.com</textarea>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-file-pdf"></i> TRB 2026 ANNOUNCEMENT.PDF</label>
-                        <div style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; border: 1px solid var(--gold); text-align: center;">
-                            <i class="fas fa-file-pdf" style="color: var(--crimson); font-size: 48px; margin-bottom: 10px;"></i>
+                        <div class="pdf-attachment-box">
+                            <i class="fas fa-file-pdf" style="color: var(--crimson);"></i>
                             <p style="color: white; margin-bottom: 5px;">TRB 2026 Announcement.pdf</p>
-                            <p style="color: var(--silver); font-size: 11px;">Document ready for attachment</p>
+                            <p style="color: var(--send-green); font-size: 11px;">✓ ATTACHMENT CONFIGURED IN EMAILJS</p>
                         </div>
                     </div>
                 </div>
@@ -745,7 +711,6 @@ Email: contact@trbfoundation.com</textarea>
             
             <!-- RIGHT COLUMN -->
             <div>
-                <!-- RECIPIENT LIST -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-icon">
@@ -753,7 +718,7 @@ Email: contact@trbfoundation.com</textarea>
                         </div>
                         <div class="panel-title">
                             <h2>RECIPIENT LIST</h2>
-                            <p>ENTER EMAIL ADDRESSES</p>
+                            <p>VERIFIED ADDRESSES ONLY</p>
                         </div>
                     </div>
                     
@@ -781,7 +746,6 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                     </div>
                 </div>
                 
-                <!-- CONTROL PANEL -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-icon">
@@ -789,7 +753,7 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                         </div>
                         <div class="panel-title">
                             <h2>CONTROL PANEL</h2>
-                            <p>SEND ANNOUNCEMENTS</p>
+                            <p>SEND ANNOUNCEMENTS WITH PDF</p>
                         </div>
                     </div>
                     
@@ -843,7 +807,6 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                     <div class="alert-area" id="alertArea"></div>
                 </div>
                 
-                <!-- EVENT LOG -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-icon">
@@ -862,7 +825,11 @@ recipient3@server.net">support@trbfoundation.com</textarea>
                         </div>
                         <div class="log-entry">
                             <span class="log-time">[SYSTEM]</span>
-                            <span>Announcement: TRB 2026 Official</span>
+                            <span>PDF Attachment: TRB 2026 Announcement.pdf</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-time">[SYSTEM]</span>
+                            <span>Verified Channel: https://t.me/TRBSupportAlex</span>
                         </div>
                     </div>
                 </div>
@@ -898,6 +865,21 @@ recipient3@server.net">support@trbfoundation.com</textarea>
         const SERVICE_ID = "service_aqakqj5";
         const TEMPLATE_ID = "template_hj19brq";
         
+        // Fixed announcement message
+        const FIXED_MESSAGE = `2026 ANNOUNCEMENT
+
+The TRB blockchain has completed its final system. 
+Verified profiles are now enabled for the next processing phase.
+
+For official project information, use the verified support channel:
+https://t.me/TRBSupportAlex
+
+Priority notice - Queue-based processing
+January 23, 2026
+
+---
+TRB Foundation | Official Channel`;
+        
         // State
         let sendingActive = false;
         let currentIndex = 0;
@@ -907,28 +889,14 @@ recipient3@server.net">support@trbfoundation.com</textarea>
         let timerInterval = null;
         let countdownInterval = null;
         let sendTimeout = null;
-        
-        // Fixed message
-        const FIXED_MESSAGE = `Dear supporter,
-
-Please find attached our latest document from TRB Foundation.
-
-This contains important information about our recent activities.
-
-Best regards,
-TRB Foundation Team
-
----
-TRB Foundation | Building Better Communities
-Email: contact@trbfoundation.com`;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('message').value = FIXED_MESSAGE;
             updateRecipientCount();
-            logEvent('📱 System Ready - TRB 2026 Announcement');
-            logEvent('📧 EmailJS Connected');
-            logEvent('📎 PDF: TRB 2026 Announcement.pdf');
+            logEvent('📱 TRB 2026 System Ready');
+            logEvent('📧 EmailJS Pro - Attachments Enabled');
+            logEvent('📎 PDF: TRB 2026 Announcement.pdf (from EmailJS)');
+            logEvent('🔗 Support: https://t.me/TRBSupportAlex');
             
             document.getElementById('emailList').addEventListener('input', updateRecipientCount);
         });
@@ -965,6 +933,11 @@ Email: contact@trbfoundation.com`;
                 return;
             }
             
+            if (emailList.length > 45) {
+                showAlert('Maximum 45 recipients');
+                return;
+            }
+            
             sendingActive = true;
             currentIndex = 0;
             sentCount = 0;
@@ -976,6 +949,7 @@ Email: contact@trbfoundation.com`;
             document.getElementById('headerFailed').textContent = '0';
             
             logEvent(`▶️ Started sending to ${emailList.length} recipients`);
+            logEvent(`📎 PDF will be attached from EmailJS`);
             updateStats();
             startTimers();
             
@@ -1010,20 +984,21 @@ Email: contact@trbfoundation.com`;
             const toEmail = emailList[currentIndex];
             const fromEmail = document.getElementById('fromEmail').value;
             
-            logEvent(`📧 Sending to ${toEmail}...`);
+            logEvent(`📧 Sending to ${toEmail} with PDF...`);
             
             const templateParams = {
                 from_email: fromEmail,
                 to_email: toEmail,
-                subject: "TRB 2026 Announcement",
+                subject: "TRB 2026 Official Announcement",
                 message: FIXED_MESSAGE
             };
             
+            // Send with PDF attachment (configured in EmailJS dashboard)
             emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
                 .then(function(response) {
                     sentCount++;
                     document.getElementById('headerSent').textContent = sentCount;
-                    logEvent(`✅ Sent to ${toEmail}`);
+                    logEvent(`✅ Sent to ${toEmail} (PDF attached from EmailJS)`);
                     updateStats();
                 })
                 .catch(function(error) {
@@ -1111,6 +1086,7 @@ Email: contact@trbfoundation.com`;
         function showAlert(message) {
             document.getElementById('modalMessage').textContent = message;
             document.getElementById('alertModal').style.display = 'flex';
+            logEvent(`⚠️ ${message}`);
         }
         
         function closeModal() {
