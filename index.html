@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRB Email System</title>
+    
+    <!-- MAKE IT AN APP ON IPHONE -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TRB Email">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- APP ICON (create a simple one) -->
+    <link rel="apple-touch-icon" href="icon.png">
+    
+    <!-- STYLES -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <div class="app-header">
+            <div class="header-left">
+                <i class="fas fa-paper-plane"></i>
+                <h1>TRB EMAIL</h1>
+            </div>
+            <div class="header-right">
+                <span class="badge">v1.0</span>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="app-content">
+            <!-- COMPOSE CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-pen"></i>
+                    <h2>COMPOSE EMAIL</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label>FROM EMAIL</label>
+                    <input type="email" id="fromEmail" value="contact@trb.com" placeholder="your@email.com">
+                </div>
+                
+                <div class="input-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="password" placeholder="SMTP password">
+                </div>
+                
+                <div class="input-group">
+                    <label>SUBJECT</label>
+                    <input type="text" id="subject" value="Hello from TRB">
+                </div>
+                
+                <div class="input-group">
+                    <label>MESSAGE</label>
+                    <textarea id="message" rows="4">This is a test message.</textarea>
+                </div>
+            </div>
+            
+            <!-- RECIPIENTS CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users"></i>
+                    <h2>RECIPIENTS</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label>EMAIL ADDRESSES (one per line)</label>
+                    <textarea id="recipients" rows="5" placeholder="friend1@email.com&#10;friend2@email.com">test@test.com</textarea>
+                </div>
+                
+                <div class="recipient-stats">
+                    <span>Total: <span id="totalCount">1</span></span>
+                    <span>Max: 45</span>
+                </div>
+            </div>
+            
+            <!-- ATTACHMENT CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-paperclip"></i>
+                    <h2>ATTACHMENT</h2>
+                </div>
+                
+                <div class="attach-box" onclick="document.getElementById('pdfFile').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>TAP TO ATTACH PDF</p>
+                    <small>Max 10MB</small>
+                </div>
+                <input type="file" id="pdfFile" accept=".pdf" style="display: none;">
+                
+                <div id="pdfInfo" style="display: none;" class="attach-info">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="pdfName"></span>
+                    <button onclick="removePDF()" class="remove-btn">✕</button>
+                </div>
+            </div>
+            
+            <!-- CONTROL CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-play"></i>
+                    <h2>CONTROL</h2>
+                </div>
+                
+                <!-- PROGRESS -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Progress</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                
+                <!-- STATS GRID -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value" id="statSent">0</span>
+                        <span class="stat-label">SENT</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statFailed">0</span>
+                        <span class="stat-label">FAILED</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statTotal">45</span>
+                        <span class="stat-label">MAX</span>
+                    </div>
+                </div>
+                
+                <!-- BUTTONS -->
+                <div class="button-group">
+                    <button class="btn btn-start" id="startBtn" onclick="startSending()">
+                        <i class="fas fa-play"></i> START
+                    </button>
+                    <button class="btn btn-stop" id="stopBtn" onclick="stopSending()" disabled>
+                        <i class="fas fa-stop"></i> STOP
+                    </button>
+                </div>
+                
+                <!-- TIMER -->
+                <div class="timer-display">
+                    <div class="timer-item">
+                        <span class="timer-label">NEXT EMAIL</span>
+                        <span class="timer-value" id="nextTimer">30s</span>
+                    </div>
+                    <div class="timer-item">
+                        <span class="timer-label">ELAPSED</span>
+                        <span class="timer-value" id="elapsedTimer">00:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- LOG CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-terminal"></i>
+                    <h2>EVENT LOG</h2>
+                </div>
+                
+                <div class="log-panel" id="logPanel">
+                    <div class="log-entry">📱 App ready</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="app-footer">
+            <p>TRB EMAIL SYSTEM • 30s INTERVAL • MAX 45</p>
+        </div>
+    </div>
+    
+    <!-- ALERT MODAL -->
+    <div class="modal" id="alertModal">
+        <div class="modal-content">
+            <i class="fas fa-info-circle" id="modalIcon"></i>
+            <p id="modalMessage">Message</p>
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
