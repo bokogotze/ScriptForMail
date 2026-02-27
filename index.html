@@ -647,8 +647,9 @@
                         <div class="stat-value" id="headerFailed">0</div>
                         <div class="stat-label">FAILED</div>
                     </div>
+                    <!-- CHANGE 1: Updated text from 30s to 5s -->
                     <div class="stat-item">
-                        <div class="stat-value">30s</div>
+                        <div class="stat-value">5s</div>
                         <div class="stat-label">INTERVAL</div>
                     </div>
                 </div>
@@ -801,7 +802,8 @@ recipient3@server.net">test@test.com</textarea>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                             <div>
                                 <div style="color: var(--silver); font-size: 10px;">NEXT EMAIL IN</div>
-                                <div style="color: var(--eagle-gold); font-size: 28px; font-family: 'Courier New';" id="nextTimer">30s</div>
+                                <!-- CHANGE 2: Updated default display from 30s to 5s -->
+                                <div style="color: var(--eagle-gold); font-size: 28px; font-family: 'Courier New';" id="nextTimer">5s</div>
                             </div>
                             <div>
                                 <div style="color: var(--silver); font-size: 10px;">ELAPSED TIME</div>
@@ -840,6 +842,11 @@ recipient3@server.net">test@test.com</textarea>
                         <div class="log-entry">
                             <span class="log-time">[SYSTEM]</span>
                             <span>Telegram: https://t.me/TRBSupportAlex</span>
+                        </div>
+                        <!-- New log entry showing 5s interval -->
+                        <div class="log-entry">
+                            <span class="log-time">[SYSTEM]</span>
+                            <span>5-second interval enabled</span>
                         </div>
                     </div>
                 </div>
@@ -914,6 +921,7 @@ Telegram: https://t.me/TRBSupportAlex`;
             logEvent('📧 From: contact@trbfoundation.com');
             logEvent('📎 PDF: TRB 2026 Announcement.pdf');
             logEvent('🔗 Telegram: https://t.me/TRBSupportAlex');
+            logEvent('⏱️ 5-second interval enabled');
             
             document.getElementById('emailList').addEventListener('input', updateRecipientCount);
         });
@@ -926,7 +934,7 @@ Telegram: https://t.me/TRBSupportAlex`;
             
             document.getElementById('totalEmails').textContent = emails.length;
             
-            const minutes = (emails.length * 0.5).toFixed(1);
+            const minutes = (emails.length * 0.0833).toFixed(1); // Updated for 5s interval (5/60 = 0.0833)
             document.getElementById('estimatedTime').textContent = minutes;
         }
         
@@ -965,7 +973,7 @@ Telegram: https://t.me/TRBSupportAlex`;
             document.getElementById('headerSent').textContent = '0';
             document.getElementById('headerFailed').textContent = '0';
             
-            logEvent(`▶️ Started sending to ${emailList.length} recipients`);
+            logEvent(`▶️ Started sending to ${emailList.length} recipients (5s interval)`);
             logEvent(`📎 PDF will be attached from EmailJS`);
             updateStats();
             startTimers();
@@ -982,7 +990,7 @@ Telegram: https://t.me/TRBSupportAlex`;
             clearInterval(countdownInterval);
             clearTimeout(sendTimeout);
             
-            document.getElementById('nextTimer').textContent = '30s';
+            document.getElementById('nextTimer').textContent = '5s';
             document.getElementById('elapsedTimer').textContent = '00:00';
             
             logEvent('⏹️ Sending stopped');
@@ -1028,7 +1036,7 @@ Telegram: https://t.me/TRBSupportAlex`;
                     currentIndex++;
                     
                     if (currentIndex < emailList.length && sendingActive) {
-                        let seconds = 30;
+                        let seconds = 5; // CHANGE 3: Changed from 30 to 5
                         const timerElement = document.getElementById('nextTimer');
                         
                         clearInterval(countdownInterval);
@@ -1043,7 +1051,7 @@ Telegram: https://t.me/TRBSupportAlex`;
                         
                         sendTimeout = setTimeout(() => {
                             sendNextEmail();
-                        }, 30000);
+                        }, 5000); // CHANGE 3: Changed from 30000 to 5000 milliseconds
                     } else if (currentIndex >= emailList.length) {
                         setTimeout(() => {
                             stopSending();
@@ -1064,11 +1072,11 @@ Telegram: https://t.me/TRBSupportAlex`;
                     `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             }, 1000);
             
-            let seconds = 30;
+            let seconds = 5; // CHANGE 3: Changed from 30 to 5
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 seconds--;
-                if (seconds < 0) seconds = 30;
+                if (seconds < 0) seconds = 5; // Changed from 30 to 5
                 document.getElementById('nextTimer').textContent = seconds + 's';
             }, 1000);
         }
